@@ -1,4 +1,4 @@
-from typing import  List
+from typing import  Dict, List
 
 
 def encode(maze:"List[List[str]]"):
@@ -76,3 +76,36 @@ def matrix_to_list(matrix):
         graph[i] = adj
     return graph
 
+
+def dfs(graph,start,end):
+    dfs_path = {} 
+    stack = [start]
+    explored = [start]
+    goal = False
+    while not goal and len(stack) != 0:
+        current = stack.pop(-1)
+        for n in graph[current]:
+            if n not in explored:
+                explored.append(n)
+                stack.append(n)
+                dfs_path[n] = current
+
+    return dfs_path
+
+def rev_path(dpath, start,end):
+    path = {}
+    cell = end
+    while cell != start:
+        path[dpath[cell]] = cell
+        cell = dpath[cell]
+    return path
+
+def path_from_dfs(path,start,end):
+    init = start
+    pas = [init]
+    while True:
+        next = path[init]
+        pas.append(next)
+        init = next
+        if next == end:
+            return pas
